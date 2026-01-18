@@ -69,12 +69,8 @@ class MovieETL:
             movieId INTEGER PRIMARY KEY,
             title TEXT NOT NULL,
             year INTEGER,
-            imdbId TEXT,
             director TEXT,
-            plot TEXT,
-            boxoffice TEXT,
             runtime TEXT,
-            rated TEXT
         );
         
         CREATE TABLE genres (
@@ -136,11 +132,7 @@ class MovieETL:
             if data.get('Response') == 'True':
                 return {
                     'director': data.get('Director', 'N/A'),
-                    'plot': data.get('Plot', 'N/A'),
-                    'boxoffice': data.get('BoxOffice', 'N/A'),
-                    'runtime': data.get('Runtime', 'N/A'),
                     'rated': data.get('Rated', 'N/A'),
-                    'imdbId': data.get('imdbID', 'N/A')
                 }
             else:
                 logger.warning(f"Movie not found in OMDb: {title}")
@@ -173,11 +165,7 @@ class MovieETL:
                 'year': row['year'],
                 'genres': row['genres'],
                 'director': 'N/A',
-                'plot': 'N/A',
-                'boxoffice': 'N/A',
-                'runtime': 'N/A',
                 'rated': 'N/A',
-                'imdbId': 'N/A'
             }
             
             # Fetch from API
@@ -205,12 +193,12 @@ class MovieETL:
         for _, row in movies_df.iterrows():
             self.cursor.execute("""
                 INSERT OR REPLACE INTO movies 
-                (movieId, title, year, imdbId, director, plot, boxoffice, runtime, rated)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                (movieId, title, year, director, rated)
+                VALUES (?, ?, ?, ?, ?)
             """, (
-                row['movieId'], row['title'], row['year'], row['imdbId'],
-                row['director'], row['plot'], row['boxoffice'], 
-                row['runtime'], row['rated']
+                row['movieId'], row['title'], row['year'], 
+                row['director'], 
+                row['rated']
             ))
         
         self.conn.commit()
