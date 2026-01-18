@@ -1,43 +1,45 @@
---Final Schema for Movie Data Pipeline Assignment
--- Task 3
+-- Database Schema for Movie Data Pipeline
+-- SQLite Database
 
--- Drop tables in reverse order of dependencies to avoid foreign key errors
+-- Drop existing tables to ensure a clean setup
 DROP TABLE IF EXISTS ratings;
 DROP TABLE IF EXISTS movie_genres;
 DROP TABLE IF EXISTS genres;
 DROP TABLE IF EXISTS movies;
 
--- 1. Movies Table: Stores core data from CSV and OMDb API [cite: 37, 44]
+-- 1. Movies table: stores main movie and OMDb information
 CREATE TABLE movies (
     movieId INTEGER PRIMARY KEY,
     title TEXT NOT NULL,
-    release_year INTEGER,
+    year INTEGER,
+    imdbId TEXT,
     director TEXT,
     plot TEXT,
-    box_office TEXT,
-    runtime TEXT
+    boxoffice TEXT,
+    runtime TEXT,
+    rated TEXT
 );
 
--- 2. Genres Table: Stores unique genre categories 
+-- 2. Genres table: stores unique genre names
 CREATE TABLE genres (
-    genre_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    genre_name TEXT UNIQUE NOT NULL
+    genreId INTEGER PRIMARY KEY AUTOINCREMENT,
+    genreName TEXT UNIQUE NOT NULL
 );
 
--- 3. Movie_Genres: Link table to handle the | separated genres (Feature Engineering) 
+-- 3. Movie-Genres junction table: handles many-to-many relationship
 CREATE TABLE movie_genres (
     movieId INTEGER,
-    genre_id INTEGER,
-    PRIMARY KEY (movieId, genre_id),
+    genreId INTEGER,
+    PRIMARY KEY (movieId, genreId),
     FOREIGN KEY (movieId) REFERENCES movies(movieId),
-    FOREIGN KEY (genre_id) REFERENCES genres(genre_id)
+    FOREIGN KEY (genreId) REFERENCES genres(genreId)
 );
 
--- 4. Ratings Table: Stores user rating data from ratings.csv
+-- 4. Ratings table: stores user ratings for movies
 CREATE TABLE ratings (
-    rating_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    userId INTEGER,
+    ratingId INTEGER PRIMARY KEY AUTOINCREMENT,
     movieId INTEGER,
+    userId INTEGER,
     rating REAL,
     timestamp INTEGER,
     FOREIGN KEY (movieId) REFERENCES movies(movieId)
