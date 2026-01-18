@@ -10,11 +10,7 @@ CREATE TABLE movies (
     movieId INTEGER PRIMARY KEY,
     title TEXT NOT NULL,
     year INTEGER,
-    imdbId TEXT,
     director TEXT,
-    plot TEXT,
-    boxoffice TEXT,
-    runtime TEXT,
     rated TEXT
 );
 
