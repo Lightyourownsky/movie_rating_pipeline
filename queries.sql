@@ -49,8 +49,6 @@ WHERE m.year IS NOT NULL
 GROUP BY m.year
 ORDER BY m.year DESC;
 
--- BONUS QUERIES
-
 -- Top 10 highest rated movies (with at least 10 ratings)
 SELECT 
     m.title,
