@@ -11,6 +11,10 @@ CREATE TABLE movies (
     title TEXT NOT NULL,
     year INTEGER,
     director TEXT,
+    imdbId TEXT,
+    plot TEXT,
+    boxoffice TEXT,
+    runtime TEXT,
     rated TEXT
 );
 
