@@ -21,7 +21,7 @@ CONFIG = {
     'MOVIES_CSV': 'movies.csv',
     'RATINGS_CSV': 'ratings.csv',
     'API_DELAY': 1,  # Seconds between API calls to respect rate limits
-    'MAX_MOVIES': 100  # Limit movies to process (set to None for all)
+    'MAX_MOVIES': 100  # Limit movies to process 
 }
 
 # Setup logging
